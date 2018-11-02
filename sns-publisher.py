@@ -5,6 +5,9 @@ aws_session = None
 
 def publishS3ContentsToTopic(bucket, topic_arn):
     snsclient = aws_session.client('sns')
+    objs = listS3Objects(bucket)
+    i = 1
+    total = len(objs)
 
     for obj in listS3Objects(bucket):
         msg = readS3Object(bucket, obj)
@@ -12,7 +15,8 @@ def publishS3ContentsToTopic(bucket, topic_arn):
             TopicArn = topic_arn,
             Message = msg
         )
-        print("Published: " + obj)
+        print("Published [" + str(i) + "/" + str(total) + "]: " + obj)
+        i += 1
 
 def readS3Object(bucket, object):
     s3 = aws_session.resource('s3')
