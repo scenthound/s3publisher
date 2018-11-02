@@ -1,6 +1,5 @@
 import boto3
 import click
-#from lxml import etree
 
 def publishS3ContentsToTopic(bucket, topic_arn):
     snsclient = boto3.client('sns')
