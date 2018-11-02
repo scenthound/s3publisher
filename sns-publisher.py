@@ -1,6 +1,6 @@
 import boto3
 import click
-from lxml import etree
+#from lxml import etree
 
 def publishS3ContentsToTopic(bucket, topic_arn):
     snsclient = boto3.client('sns')
@@ -11,6 +11,7 @@ def publishS3ContentsToTopic(bucket, topic_arn):
             TopicArn = topic_arn,
             Message = msg
         )
+        print("Published: " + obj)
 
 def readS3Object(bucket, object):
     s3 = boto3.resource('s3')
@@ -29,6 +30,7 @@ def listS3Objects(bucket):
 @click.argument("topic_arn")
 def cli(bucket, topic_arn):
     click.echo("bucket: " + bucket + " topic_arn: " + topic_arn) 
+    publishS3ContentsToTopic(bucket, topic_arn)
 
 def main():
     cli()
